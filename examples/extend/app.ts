@@ -30,3 +30,18 @@ axios.post('/extend/post', { msg: 'post' })
 axios.put('/extend/put', { msg: 'put' })
 
 axios.patch('/extend/put', { msg: 'patch' })
+
+axios({
+  url: '/extend/post',
+  method: 'post',
+  data: {
+    msg: 'hi'
+  }
+})
+
+axios('/extend/post', {
+  method: 'post',
+  data: {
+    msg: 'hello'
+  }
+})
