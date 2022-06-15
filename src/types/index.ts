@@ -1,4 +1,9 @@
 export interface Axios {
+  interceptors: {
+    request: AxiosInterceptorManager<AxiosRequestConfig>,
+    response: AxiosInterceptorManager<AxiosResponse>
+  }
+
   request<T = any>(config: AxiosRequestConfig): AxiosPromise
 
   get<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise
@@ -65,4 +70,19 @@ export interface AxiosError extends Error {
   request?: any
   response?: AxiosResponse
   isAxiosError: Boolean
+}
+
+export interface AxiosInterceptorManager<T> {
+  use(resolved: ResolvedFn<T>, rejected?: RejectedFn) :number
+
+  eject(id: number): void
+}
+
+
+export interface ResolvedFn<T = any> {
+  (val: T): T | Promise<T>
+}
+
+export interface RejectedFn {
+  (error: any): any
 }

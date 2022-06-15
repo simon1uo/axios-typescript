@@ -79,5 +79,11 @@ router.get('/error/timeout', function(req, res) {
   }, 3000)
 })
 
+router.get('/interceptor/get', function(req, res) {
+  res.json({
+    msg: 'hello world'
+  })
+})
+
 
 app.use(router)
