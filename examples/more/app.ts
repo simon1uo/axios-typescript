@@ -127,7 +127,7 @@ axios
     console.log(e.message)
   })*/
 
-axios.get('/more/get', {
+/*axios.get('/more/get', {
   params: new URLSearchParams('a=b&c=d')
 }).then(res => {
   console.log(res)
@@ -136,7 +136,7 @@ axios.get('/more/get', {
 axios.get('/more/get', {
   params: {
     a: 1,
-    b: 2,
+    b: 2,a
     c: ['a', 'b', 'c']
   }
 }).then(res => {
@@ -157,4 +157,12 @@ instance.get('/more/get', {
   }
 }).then(res => {
   console.log(res)
+})*/
+
+const instance = axios.create({
+  baseURL: 'https://cdn.jsdelivr.net/gh/simon1uo/image-flow@master/image/'
 })
+
+instance.get('D4kLn9.png')
+
+instance.get('https://cdn.jsdelivr.net/gh/simon1uo/image-flow@master/image/EGVR9A.png')

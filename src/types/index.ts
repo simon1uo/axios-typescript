@@ -50,6 +50,7 @@ export interface AxiosRequestConfig {
   auth?: AxiosBasicCredentials
   validateStatus?: (status: number) => boolean
   paramsSerializer?: (params: any) => string
+  baseURL?: string
 }
 
 export type Method =
