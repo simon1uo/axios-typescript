@@ -1,5 +1,4 @@
-import axios from '../../src'
-import NProgress from 'nprogress'
+import axios, { AxiosError } from '../../src'
 import 'nprogress/nprogress.css'
 
 /*axios.get('/more/get').then(res => {
@@ -27,6 +26,7 @@ instance.get('/more/get').then(res => {
   console.log(res)
 })*/
 
+/*
 const instance = axios.create()
 
 function calculatePercentage(loaded: number, total: number) {
@@ -101,4 +101,27 @@ axios
   )
   .then(res => {
     console.log(res)
+  })
+*/
+
+axios
+  .get('/more/304')
+  .then(res => {
+    console.log(res)
+  })
+  .catch((e: AxiosError) => {
+    console.log(e.message)
+  })
+
+axios
+  .get('/more/304', {
+    validateStatus(status) {
+      return status >= 200 && status < 400
+    }
+  })
+  .then(res => {
+    console.log(res)
+  })
+  .catch((e: AxiosError) => {
+    console.log(e.message)
   })
