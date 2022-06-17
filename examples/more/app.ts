@@ -1,6 +1,5 @@
-import axios, { AxiosError } from '../../src'
+import axios from '../../src'
 import 'nprogress/nprogress.css'
-import qs from 'qs'
 
 /*axios.get('/more/get').then(res => {
   console.log(res)
@@ -159,6 +158,7 @@ instance.get('/more/get', {
   console.log(res)
 })*/
 
+/*
 const instance = axios.create({
   baseURL: 'https://cdn.jsdelivr.net/gh/simon1uo/image-flow@master/image/'
 })
@@ -166,3 +166,28 @@ const instance = axios.create({
 instance.get('D4kLn9.png')
 
 instance.get('https://cdn.jsdelivr.net/gh/simon1uo/image-flow@master/image/EGVR9A.png')
+*/
+
+function getA() {
+  return axios.get('/more/A')
+}
+
+function getB() {
+  return axios.get('/more/B')
+}
+
+axios.all([getA(), getB()]).then(([resA, resB]) => {
+  console.log(resA.data)
+  console.log(resB.data)
+})
+
+const fakeConfig = {
+  baseURL: 'https://www.baidu.com/',
+  url: '/user/12345',
+  params: {
+    idClient: 1,
+    idTest: 2,
+    testString: 'thisIsATest'
+  }
+}
+console.log(axios.getUri(fakeConfig))
