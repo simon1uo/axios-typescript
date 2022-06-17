@@ -109,7 +109,8 @@ router.post('/cancel/post', function(req, res) {
 })
 
 router.get('/more/get', function(req, res) {
-  res.json(req.cookies)
+  // res.json(req.cookies)
+  res.json(req.headers)
 })
 
 const multipart = require('connect-multiparty')

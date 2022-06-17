@@ -21,8 +21,8 @@ function processConfig(config: AxiosRequestConfig): void {
 }
 
 function transformURL(config: AxiosRequestConfig): any {
-  const { url, params } = config
-  return buildURL(url, params)
+  const { url, params, paramsSerializer } = config
+  return buildURL(url!, params, paramsSerializer)
 }
 
 function transformRequestData(config: AxiosRequestConfig): any {
@@ -40,7 +40,7 @@ function transformResponseData(res: AxiosResponse): AxiosResponse {
 }
 
 function throwIfCancellationRequested(config: AxiosRequestConfig) {
-  if(config.cancelToken) {
+  if (config.cancelToken) {
     config.cancelToken.throwIfRequested()
   }
 }
