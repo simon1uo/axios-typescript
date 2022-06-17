@@ -22,9 +22,13 @@ app.use(
 app.use(webpackHotMiddleware(compiler))
 
 app.use(express.static(__dirname))
-
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.static(__dirname, {
+  setHeaders(res) {
+    res.cookie('XSRF-TOKEN-D', '1234abc')
+  }
+}))
 
 const port = process.env.PORT || 8080
 module.exports = app.listen(port, () => {
