@@ -4,7 +4,7 @@ const webpack = require('webpack')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 const WebpackConfig = require('./webpack.config')
-const { route } = require('express/lib/router')
+const path = require('path')
 
 const app = express()
 const compiler = webpack(WebpackConfig)
@@ -111,4 +111,14 @@ router.get('/more/get',function(req,res){
   res.json(req.cookies)
 })
 
+
+const multipart = require('connect-multiparty')
+app.use(multipart({
+  uploadDir: path.resolve(__dirname, 'upload-file')
+}))
+
+router.post('/more/upload', function(req, res) {
+  console.log(req.body, req.files)
+  res.end('upload success!')
+})
 app.use(router)
