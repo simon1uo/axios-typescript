@@ -5,6 +5,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 const WebpackConfig = require('./webpack.config')
 const path = require('path')
+const { atob } = require('atob')
 
 const app = express()
 const compiler = webpack(WebpackConfig)
@@ -24,11 +25,13 @@ app.use(webpackHotMiddleware(compiler))
 app.use(express.static(__dirname))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(express.static(__dirname, {
-  setHeaders(res) {
-    res.cookie('XSRF-TOKEN-D', '1234abc')
-  }
-}))
+app.use(
+  express.static(__dirname, {
+    setHeaders(res) {
+      res.cookie('XSRF-TOKEN-D', '1234abc')
+    }
+  })
+)
 
 const port = process.env.PORT || 8080
 module.exports = app.listen(port, () => {
@@ -64,9 +67,9 @@ router.post('/base/buffer', function(req, res) {
   })
 })
 
-router.get('/error/get', function(req,res) {
-  if(Math.random() > 0.5) {
-    res.json( {
+router.get('/error/get', function(req, res) {
+  if (Math.random() > 0.5) {
+    res.json({
       msg: 'hello world'
     })
   } else {
@@ -76,7 +79,7 @@ router.get('/error/get', function(req,res) {
 })
 
 router.get('/error/timeout', function(req, res) {
-  setTimeout(()=>{
+  setTimeout(() => {
     res.json({
       msg: 'hello world'
     })
@@ -89,36 +92,49 @@ router.get('/interceptor/get', function(req, res) {
   })
 })
 
-
-router.post('/config/post',function(req,res){
+router.post('/config/post', function(req, res) {
   res.json(req.body)
 })
 
-
-router.get('/cancel/get',function(req,res){
-  setTimeout(()=>{
+router.get('/cancel/get', function(req, res) {
+  setTimeout(() => {
     res.json('hello')
-  },1000)
+  }, 1000)
 })
 
-router.post('/cancel/post',function(req,res){
-  setTimeout(()=>{
+router.post('/cancel/post', function(req, res) {
+  setTimeout(() => {
     res.json(req.body)
-  },1000)
+  }, 1000)
 })
 
-router.get('/more/get',function(req,res){
+router.get('/more/get', function(req, res) {
   res.json(req.cookies)
 })
 
-
 const multipart = require('connect-multiparty')
-app.use(multipart({
-  uploadDir: path.resolve(__dirname, 'upload-file')
-}))
+app.use(
+  multipart({
+    uploadDir: path.resolve(__dirname, 'upload-file')
+  })
+)
 
 router.post('/more/upload', function(req, res) {
   console.log(req.body, req.files)
   res.end('upload success!')
 })
+
+router.post('/more/post', function(req, res) {
+  const auth = req.headers.authorization
+  const [type, credentials] = auth.split(' ')
+  // console.log(atob(credentials))
+  const [username, password] = atob(credentials).split(':')
+  if (type === 'Basic' && username === 'simon' && password === '123456') {
+    res.json(req.body)
+  } else {
+    res.status(401)
+    res.end('UnAuthorization')
+  }
+})
+
 app.use(router)

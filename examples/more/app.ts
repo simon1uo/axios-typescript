@@ -51,13 +51,16 @@ function loadProgressbar() {
   }
 
   const setupStopProgress = () => {
-    instance.interceptors.response.use(response => {
-      NProgress.done()
-      return response
-    }, error => {
-      NProgress.done()
-      return Promise.reject(error)
-    })
+    instance.interceptors.response.use(
+      response => {
+        NProgress.done()
+        return response
+      },
+      error => {
+        NProgress.done()
+        return Promise.reject(error)
+      }
+    )
   }
 
   setupStartProgress()
@@ -76,9 +79,26 @@ const uploadEl = document.getElementById('upload')
 uploadEl!.addEventListener('click', e => {
   const data = new FormData()
   const fileEl = document.getElementById('file') as HTMLInputElement
-  if(fileEl.files) {
+  if (fileEl.files) {
     data.append('file', fileEl.files[0])
 
     instance.post('/more/upload', data)
   }
 })
+
+axios
+  .post(
+    '/more/post',
+    {
+      a: 1
+    },
+    {
+      auth: {
+        username: 'simon',
+        password: '123456'
+      }
+    }
+  )
+  .then(res => {
+    console.log(res)
+  })
