@@ -36,14 +36,14 @@ export function transformURL(config: AxiosRequestConfig): any {
   return buildURL(url!, params, paramsSerializer)
 }
 
-function transformRequestData(config: AxiosRequestConfig): any {
+/*function transformRequestData(config: AxiosRequestConfig): any {
   return transformRequest(config.data)
 }
 
 function transformRequestHeader(config: AxiosRequestConfig): any {
   const { headers = {}, data } = config
   return processHeaders(headers, data)
-}
+}*/
 
 function transformResponseData(res: AxiosResponse): AxiosResponse {
   res.data = transform(res.data, res.headers, res.config.transformResponse)
