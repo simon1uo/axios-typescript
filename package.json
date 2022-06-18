@@ -1,15 +1,15 @@
 {
-  "name": "--libraryname--",
+  "name": "axios-typescript",
   "version": "0.0.0",
   "description": "",
   "keywords": [],
-  "main": "dist/--libraryname--.umd.js",
-  "module": "dist/--libraryname--.es5.js",
-  "typings": "dist/types/--libraryname--.d.ts",
+  "main": "dist/axios-typescript.umd.js",
+  "module": "dist/axios-typescript.es5.js",
+  "typings": "dist/types/axios-typescript.d.ts",
   "files": [
     "dist"
   ],
-  "author": "--username-- <--usermail-->",
+  "author": "Simon Luo <simonlaw910@gmail.com>",
   "repository": {
     "type": "git",
     "url": ""
@@ -25,7 +25,7 @@
     "prebuild": "rimraf dist",
     "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src",
     "start": "rollup -c rollup.config.ts -w",
-    "test": "jest --coverage",
+    "test": "jest --coverage --env=jsdom",
     "test:watch": "jest --coverage --watch",
     "test:prod": "npm run lint && npm run test -- --no-cache",
     "deploy-docs": "ts-node tools/gh-pages-publish",
@@ -34,7 +34,6 @@
     "semantic-release": "semantic-release",
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
     "precommit": "lint-staged",
-    "postinstall": "ts-node tools/init",
     "travis-deploy-once": "travis-deploy-once"
   },
   "lint-staged": {
@@ -52,7 +51,7 @@
     "transform": {
       ".(ts|tsx)": "ts-jest"
     },
-    "testEnvironment": "node",
+    "testEnvironment": "jsdom",
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     "moduleFileExtensions": [
       "ts",
@@ -72,7 +71,11 @@
       }
     },
     "collectCoverageFrom": [
-      "src/*.{js,ts}"
+      "src/*.{js,ts}",
+      "src/**/*.{js,ts}"
+    ],
+    "setupFiles": [
+      "<rootDir>/test/boot.ts"
     ]
   },
   "prettier": {
@@ -87,6 +90,7 @@
   "devDependencies": {
     "@commitlint/cli": "^7.1.2",
     "@commitlint/config-conventional": "^7.1.2",
+    "@types/jasmine-ajax": "^3.3.3",
     "@types/jest": "^23.3.2",
     "@types/node": "^10.11.0",
     "atob": "^2.1.2",
@@ -101,6 +105,9 @@
     "cz-conventional-changelog": "^2.1.0",
     "express": "^4.18.1",
     "husky": "^1.0.1",
+    "jasmine": "^4.2.0",
+    "jasmine-ajax": "^4.0.0",
+    "jasmine-core": "^4.2.0",
     "jest": "^23.6.0",
     "jest-config": "^23.6.0",
     "lint-staged": "^8.0.0",
